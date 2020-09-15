@@ -1,0 +1,114 @@
+####################
+# ANTHEM is a tool used for HLA-I peptide binding prediction based on AODE algorithm and five scoring functions.
+#
+####################
+
+####################
+		USAGE
+####################
+
+	1.1 Requirements
+	Python3, Linux system (Python2 for web)
+	Python3 package: numpy, pandas, sklearn
+	JDK (jave development kit)
+
+	1.2 Protocol
+	(1) Download the ANTHEM. (About 380MB, might take a few minutes)
+	(2) ANTHEM has two major functions, the first one is prediction function, the second is train model function:
+
+####################
+
+	(2.1) prediction function
+	In this function, users can use ANTHEM to predict the possibility of peptide bind to a specific HLA-I allotype. The following parameters are requireed:
+
+	--length	the length of peptides users want to predict.
+				(optional if the input is peptide sequence format)
+
+	--HLA 		the name of HLA-I allotype, eg: HLA-A*01:01 If multiple allotypes, use comma to separate, eg: HLA-A*01:01,HLA-A*02:01
+
+	--moode		the mode choose to use. In prediction function, the mode is "prediction".
+
+	--peptide_file or --fasta_file
+				the path of the file that contains peptide sequence in text format or protein sequence in fasta format, respectively.
+
+	--threshold	the threshold used to define a binder; Integer from 50 - 100, the default is 100
+				(optional)
+
+	Then, enter the location to bin folder in command line, type like the below:
+	python main.py --length 9 --HLA HLA-A*01:01 --mode prediction --fasta_file test/peptide.fasta
+
+	The output is a text file that contains the prediction results.
+
+####################
+
+	(2.2) train model function
+	In this function, users can use ANTHEM to train new models based on their own training data and use them for the next time. First, users need to train model. The following parameters are required:
+
+	--length	the length of training peptides that users provide. The training peptides should be in the same length.
+
+	--HLA		the name that users want to give the trained model. It must be selected from aA-zZ and/or 0-9. No space allowed, the maximum 				length is 20.
+
+	--mode		the mode choose to use. In train model function, when users want to train model, the mode is "TrainYourModel"
+
+	--trainingfile
+				the path of the training file.
+				(
+				(1). The content format of training file should be same with the expample file "trainpeptide.txt" in the test folder, whose the first row is the label of 1 which stands for positive train peptide. Then the positive train peptides can start from the second row, each row contains one peptide.
+				(2). Training file can also contain negative train peptides. But first need to insert -1 as the negative label in the row that just following the last positive train peptide. Then the negative train peptides can start from the next row, each row contains one peptide.
+				)
+
+	--CV		the number of folds for cross-validation. Users can either choose 5, 10, or LOO (leave-one-out). The default is 5.
+
+	--testfile	the path of test file to test model
+				(the content format of test file should be same with training file and must contain both positive and negative test peptides)
+				(optional)
+
+	--predictfile_peptide or --predictfile_fasta				
+				the path of the file contains sequences in peptide or fasta format. The sequence in the file will be predictded by using the newly trained model.
+				(optional)
+
+	--threshold	the threshold used to define a binder; Integer from 50 - 100, the default is 100
+				(optional)
+
+	Then, enter the location to bin folder in command line, type like the below:
+	python main.py --length 9 --HLA HLA-A*01:01 --mode TrainYourModel --trainingfile test/trainnegpeptide.txt
+
+	The output contains trained modelfile, which can be used for useYourOwnModel mode (below)
+	
+####################
+
+	Next time, when users want to use the same trained model to predict other peptides of interest, ANTHEM allows users to use their trained model so don't need to train model again. The following parameters are required:
+
+	--mode		the mode choose to use. In train model function, if users want to use their trained model, the mode is "useYourOwnModel".
+
+	--modelfile		the modelfile generated from the "TrainYourModel".
+
+	--predictfile_peptide or predictfile_fasta
+				the path of the file that contains sequences in peptide or fasta format.
+
+	--threshold	the threshold used to define a binder; Integer from 50 - 100, the default is 100
+				(optional)				
+
+	Then, enter the location to bin folder in command line, type like the below:
+	python main.py --HLA HLA-A*01:01 --mode useYourOwnModel --model "the path of the model folder" --matrix "the path of the matrix folder" --predictfile_peptide test/predictpeptide.txt
+
+	The output is a text file that contains the prediction result.
+
+####################
+Method Reference:
+####################
+
+#Weblogo#
+Gavin E. Crooks, Gary Hon, John-Marc Chandonia and Steven E. Brenner Genome Research, 14:1188-1190, (2004)
+
+#Seq2Logo#
+Thomsen M C F, Nielsen M. Seq2Logo: a method for construction and visualization of amino acid binding motifs and sequence profiles including sequence weighting, pseudo counts and two-sided representation of amino acid enrichment and depletion[J]. Nucleic acids research, 2012, 40(W1): W281-W287.
+
+#weka#
+Mark Hall, Eibe Frank, Geoffrey Holmes, Bernhard Pfahringer, Pe- ter Reutemann, Ian H. Witten (2009); The WEKA Data Mining Software: An Update; SIGKDD Explorations, Volume 11, Issue 1.
+
+####################
+License
+####################
+
+GPL 3.0 http://www.gnu.org/licenses/gpl.html
