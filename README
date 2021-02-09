@@ -14,7 +14,9 @@
 
 	1.2 Protocol
 	(1) Download the ANTHEM. (About 380MB, might take a few minutes)
-	(2) ANTHEM has two major functions, the first one is prediction function, the second is train model function:
+	(2) Go to source folder, weblogo folder, open 'logo.conf' and change the path of gs to the direct path of the file 'gs-950-linux-x86_64', 
+	which should be in the same folder of 'logo.conf' file.
+	(3) ANTHEM has two major functions, the first one is prediction function, the second is train model function:
 
 ####################
 
@@ -34,8 +36,8 @@
 	--threshold	the threshold used to define a binder; Integer from 50 - 100, the default is 100
 				(optional)
 
-	Then, enter the location to bin folder in command line, type like the below:
-	python main.py --length 9 --HLA HLA-A*01:01 --mode prediction --fasta_file test/peptide.fasta
+	Then, enter the location to main folder in command line, type like the below:
+	python sware_b_main.py --length 9 --HLA HLA-A*01:01 --mode prediction --fasta_file test/predictpeptide.fasta
 
 	The output is a text file that contains the prediction results.
 
@@ -70,8 +72,8 @@
 	--threshold	the threshold used to define a binder; Integer from 50 - 100, the default is 100
 				(optional)
 
-	Then, enter the location to bin folder in command line, type like the below:
-	python main.py --length 9 --HLA HLA-A*01:01 --mode TrainYourModel --trainingfile test/trainnegpeptide.txt
+	Then, enter the location to main folder in command line, type like the below:
+	python sware_b_main.py --length 9 --HLA HLA123 --mode TrainYourModel --trainingfile test/trainpeptide.txt
 
 	The output contains trained modelfile, which can be used for useYourOwnModel mode (below)
 	
@@ -89,8 +91,8 @@
 	--threshold	the threshold used to define a binder; Integer from 50 - 100, the default is 100
 				(optional)				
 
-	Then, enter the location to bin folder in command line, type like the below:
-	python main.py --HLA HLA-A*01:01 --mode useYourOwnModel --model "the path of the model folder" --matrix "the path of the matrix folder" --predictfile_peptide test/predictpeptide.txt
+	Then, enter the location to main folder in command line, type like the below:
+	python sware_b_main.py --mode useYourOwnModel --model "the path of the model file" --predictfile_peptide test/predictpeptide.txt
 
 	The output is a text file that contains the prediction result.
 
