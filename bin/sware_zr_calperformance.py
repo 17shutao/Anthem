@@ -1,4 +1,5 @@
 ###calculate performance
+#_*_coding:utf-8_*_
 from collections import OrderedDict
 import numpy as np
 import math, os
